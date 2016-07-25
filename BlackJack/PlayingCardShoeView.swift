@@ -46,7 +46,8 @@ class PlayingCardShoeView: UIView {
     func cardShoeLongPressed(sender: UILongPressGestureRecognizer) {
         if sender.state == .Ended {
             // handling code
-            UIView.transitionWithView(self, duration: 0.25, options: .CurveEaseOut | .TransitionFlipFromBottom, animations: {
+//            UIView.transitionWithView(self, duration: 0.25, options: .CurveEaseOut | .TransitionFlipFromBottom, animations: {
+            UIView.transitionWithView(self, duration: 0.25, options: .TransitionFlipFromBottom, animations: {
                 // send a message to get a new show
                 }, completion: { _ in
                     self.sendNotification("Getting a new Card Shoe")
@@ -58,7 +59,7 @@ class PlayingCardShoeView: UIView {
     // MARK: - initializers
     
     required init(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
+        super.init(coder: aDecoder)!
         setup()
     }
     

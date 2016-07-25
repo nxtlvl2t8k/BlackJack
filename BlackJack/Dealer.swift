@@ -96,7 +96,7 @@ class Dealer: NSObject {
             for hand in player.hands {
                 switch hand.handState {
                 case .Active:
-                    println("This is an error, player's hand can't be active now")
+                    print("This is an error, player's hand can't be active now")
                 case .NaturalBlackjack:
 //                    println("The winning blackjack hand paid \(hand.bet * gameConfiguration!.multipleForPlayerBlackjack)")
 //                    sendNotification("Blackjack paid \(hand.bet * gameConfiguration!.multipleForPlayerBlackjack)")
@@ -133,7 +133,7 @@ class Dealer: NSObject {
                     player.bankRoll += surrenderAllowance
                     hand.bet = 0
                 case .Won:
-                    println("This is an error, player's hand can't be won now")
+                    print("This is an error, player's hand can't be won now")
                 case .Lost:
                     // this only happens on the initial dealer blackjack with hole card
                     hand.bet = 0

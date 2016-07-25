@@ -29,7 +29,7 @@ class BlackjackGame: NSObject, PlayingCardGame, CardPlayerDelegate {
         case .Reset:
             getNewShoe()
         default:
-            println("default")
+            print("default")
         }
     }
     

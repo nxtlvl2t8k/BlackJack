@@ -8,13 +8,13 @@
 
 import UIKit
 
-class PlayerHandContainerViewController: HandContainerViewController, UIDynamicAnimatorDelegate {
+class PlayerHandContainerViewController: HandContainerViewController { //, UIDynamicAnimatorDelegate {
     private var playerScoreText = ""
     private var resultLabel: UILabel?
     var playerHandIndex: Int? {
         didSet {
             if oldValue != playerHandIndex {
-//                println("The player hand index is now changing to...\(playerHandIndex)")
+                print("The player hand index is now changing to...\(playerHandIndex)")
             }
         }
     }
@@ -82,7 +82,7 @@ class PlayerHandContainerViewController: HandContainerViewController, UIDynamicA
             } else {
                 label!.removeFromSuperview()
             }
-            label!.setTranslatesAutoresizingMaskIntoConstraints(false)
+            label?.translatesAutoresizingMaskIntoConstraints = false
             label!.textAlignment = NSTextAlignment.Center
             label!.text = self.playerScoreText
             switch self.playerScoreText {
@@ -184,11 +184,11 @@ class PlayerHandContainerViewController: HandContainerViewController, UIDynamicA
             resultLabel!.text = "⚐"
             resultLabel!.backgroundColor = UIColor.redColor()
         case .Stood:
-            println("Stood")
+            print("Stood")
         case .Active:
-            println("Active")
+            print("Active")
         default:
-            println("unknown result")
+            print("unknown result")
         }
         resultLabel!.textAlignment = NSTextAlignment.Center
         resultLabel!.font = UIFont.systemFontOfSize(30)

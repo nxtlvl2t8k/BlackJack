@@ -48,14 +48,15 @@ class PlayingCardView: UIView {
         let view = nib.instantiateWithOwner(self, options: nil)[0] as UIView
         */
 //        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: "cardTapped:")
-        let longPressGestureRecognizer = UILongPressGestureRecognizer(target: self, action: "cardLongPressed:")
+        let longPressGestureRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(PlayingCardView.cardLongPressed(_:)))
         self.addGestureRecognizer(longPressGestureRecognizer)
     }
 
     func cardTapped(sender: UITapGestureRecognizer) {
         if sender.state == .Ended {
             // handling code
-            UIView.transitionWithView(self, duration: 0.25, options: .CurveEaseOut | .TransitionFlipFromLeft, animations: {
+//            UIView.transitionWithView(self, duration: 0.25, options: .CurveEaseOut | .TransitionFlipFromLeft, animations: {
+            UIView.transitionWithView(self, duration: 0.25, options: .TransitionFlipFromLeft, animations: {
                 self.faceUp = !self.faceUp
                 }, completion: nil)
         }
@@ -64,7 +65,8 @@ class PlayingCardView: UIView {
     func cardLongPressed(sender: UILongPressGestureRecognizer) {
         if sender.state == .Ended {
             // handling code
-            UIView.transitionWithView(self, duration: 0.25, options: .CurveEaseOut | .TransitionFlipFromLeft, animations: {
+//            UIView.transitionWithView(self, duration: 0.25, options: .CurveEaseOut | .TransitionFlipFromLeft, animations: {
+            UIView.transitionWithView(self, duration: 0.25, options: .TransitionFlipFromLeft, animations: {
                 self.faceUp = !self.faceUp
                 }, completion: nil)
         }
@@ -73,7 +75,7 @@ class PlayingCardView: UIView {
     // MARK: - initializers
        
     required init(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
+        super.init(coder: aDecoder)!
         setup()
     }
     
@@ -146,30 +148,30 @@ class PlayingCardView: UIView {
         let row4 = [BlackjackCard.Rank.Four, .Five, .Six, .Seven, .Eight, .Nine, .Ten]
         let row5 = [BlackjackCard.Rank.Nine, .Ten]
 
-        if contains(row1, card.rank) {
-            drawPips(horizontalOffset: 0, verticalOffset: 0, mirroredVertically: false)
+        if row1.contains(card.rank) {
+            drawPips(0, verticalOffset: 0, mirroredVertically: false)
         }
         
-        if contains(row2, card.rank) {
-            drawPips(horizontalOffset: pipHorizontalOffset, verticalOffset: 0, mirroredVertically: false)
+        if row2.contains(card.rank) {
+            drawPips(pipHorizontalOffset, verticalOffset: 0, mirroredVertically: false)
         }
         
-        if contains(row3, card.rank) {
-            drawPips(horizontalOffset: 0, verticalOffset: pipVerticalOffset2, mirroredVertically: card.rank != .Seven)
+        if row3.contains(card.rank) {
+            drawPips(0, verticalOffset: pipVerticalOffset2, mirroredVertically: card.rank != .Seven)
         }
 
-        if contains(row4, card.rank) {
-            drawPips(horizontalOffset: pipHorizontalOffset, verticalOffset: pipVerticalOffset3, mirroredVertically: true)
+        if row4.contains(card.rank) {
+            drawPips(pipHorizontalOffset, verticalOffset: pipVerticalOffset3, mirroredVertically: true)
         }
         
-        if contains(row5, card.rank) {
-            drawPips(horizontalOffset: pipHorizontalOffset, verticalOffset: pipVerticalOffset1, mirroredVertically: true)
+        if row5.contains(card.rank) {
+            drawPips(pipHorizontalOffset, verticalOffset: pipVerticalOffset1, mirroredVertically: true)
         }
 
         
     }
     
-    func drawPips(#horizontalOffset: CGFloat, verticalOffset: CGFloat, mirroredVertically: Bool) {
+    func drawPips(horizontalOffset: CGFloat, verticalOffset: CGFloat, mirroredVertically: Bool) {
         switch (mirroredVertically) {
         case true:
             drawPip(horizontalOffset, verticalOffset, true)

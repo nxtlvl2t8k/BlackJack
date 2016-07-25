@@ -42,7 +42,7 @@ class AudioController: NSObject {
             }
         }
         
-        func setSoundFileID(#soundID: SystemSoundID) {
+        func setSoundFileID(soundID: SystemSoundID) {
             switch self {
             case .Won:
                 GameSounds.won = soundID
@@ -92,8 +92,8 @@ class AudioController: NSObject {
                         let urlName = dict["Name"]
                         let urlExtension = dict["Extension"]
                         let soundURL = NSBundle.mainBundle().URLForResource(urlName!, withExtension: urlExtension)
-                        AudioServicesCreateSystemSoundID(soundURL, &gameSoundID)
-                        gameSound.setSoundFileID(soundID: gameSoundID)
+                        AudioServicesCreateSystemSoundID(soundURL!, &gameSoundID)
+                        gameSound.setSoundFileID(gameSoundID)
                     }
                 }
             }

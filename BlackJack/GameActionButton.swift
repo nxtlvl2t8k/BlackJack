@@ -12,7 +12,7 @@ import UIKit
 class GameActionButton: UIButton {
     @IBInspectable var maskEnabled: Bool = true {
         didSet {
-            mkLayer.enableMask(enable: maskEnabled)
+            mkLayer.enableMask(maskEnabled)
         }
     }
     @IBInspectable var rippleLocation: MKRippleLocation = .Center {
@@ -76,7 +76,7 @@ class GameActionButton: UIButton {
     }
     
     required init(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
+        super.init(coder: aDecoder)!
         setupLayer()
     }
     
@@ -89,7 +89,7 @@ class GameActionButton: UIButton {
     }
     
     // MARK - location tracking methods
-    override func beginTrackingWithTouch(touch: UITouch, withEvent event: UIEvent) -> Bool {
+    override func beginTrackingWithTouch(touch: UITouch, withEvent event: UIEvent?) -> Bool {
         if rippleLocation == .TapLocation {
             mkLayer.didChangeTapLocation(touch.locationInView(self))
         }

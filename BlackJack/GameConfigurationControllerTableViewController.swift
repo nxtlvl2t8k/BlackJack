@@ -85,7 +85,7 @@ class GameConfigurationControllerTableViewController: UITableViewController, UIT
         case 8:
             numDecksSegmentedControl.selectedSegmentIndex = 4
         default:
-            println("Error: found number decks = \(gameConfiguration.numDecks)")
+            print("Error: found number decks = \(gameConfiguration.numDecks)")
         }
         
         redealThresholdLabel.text = "Deck Penetration To: \(gameConfiguration.redealThreshold)"
@@ -99,7 +99,7 @@ class GameConfigurationControllerTableViewController: UITableViewController, UIT
         case 1.5:
             blackjackPayoutMultiplierSegmentedControl.selectedSegmentIndex = 0
         default:
-            println("Error: found Blackjack payout = \(gameConfiguration.multipleForPlayerBlackjack)")
+            print("Error: found Blackjack payout = \(gameConfiguration.multipleForPlayerBlackjack)")
         }
 
         splitsAllowedSwitch.on = gameConfiguration.splitsAllowed
@@ -115,7 +115,7 @@ class GameConfigurationControllerTableViewController: UITableViewController, UIT
         case 4:
             maxHandsAfterSplitsSegmentedControl.selectedSegmentIndex = 2
         default:
-            println("Error: found max hands after splits = \(gameConfiguration.maxHandsWithSplits)")
+            print("Error: found max hands after splits = \(gameConfiguration.maxHandsWithSplits)")
         }
         doubleDownAllowedSwitch.on = gameConfiguration.doublingDownAllowed
         doubleDownOnlyOn10and11Switch.on = gameConfiguration.doublingDownAllowedOn10and11Only
@@ -167,7 +167,7 @@ class GameConfigurationControllerTableViewController: UITableViewController, UIT
         case 4:
             gameConfiguration.numDecks = 8
         default:
-            println("Error index received for numDecks")
+            print("Error index received for numDecks")
         }
         numDecksLabel.text = "Number of Decks: \(gameConfiguration.numDecks)"
     }
@@ -181,7 +181,7 @@ class GameConfigurationControllerTableViewController: UITableViewController, UIT
         case 2:
             gameConfiguration.multipleForPlayerBlackjack = 1.0
         default:
-            println("Error index received for blackjack payout multiplier")
+            print("Error index received for blackjack payout multiplier")
         }
         blackjackPayoutMultiplierLabel.text = "Blackjack Payout Multiple: \(gameConfiguration.multipleForPlayerBlackjack)"
     }
@@ -201,7 +201,7 @@ class GameConfigurationControllerTableViewController: UITableViewController, UIT
         case 2:
             gameConfiguration.maxHandsWithSplits = 4
         default:
-            println("Error index received for max hands after split")
+            print("Error index received for max hands after split")
         }
         maxHandsAfterSplitsLabel.text = "Max Hands After Splits: \(gameConfiguration.maxHandsWithSplits)"
     }
@@ -247,14 +247,14 @@ class GameConfigurationControllerTableViewController: UITableViewController, UIT
         textField.resignFirstResponder()
         switch textField {
         case minimumBetAmountTextField:
-            if let number = NSNumberFormatter().numberFromString(textField.text) {
+            if let number = NSNumberFormatter().numberFromString(textField.text!) {
                 gameConfiguration.minimumBet = number.doubleValue
                 if gameConfiguration.minimumBet > gameConfiguration.maximumBet {
                     gameConfiguration.minimumBet = gameConfiguration.maximumBet
                 }
             }
         case maximumBetAmountTextField:
-            if let number = NSNumberFormatter().numberFromString(textField.text) {
+            if let number = NSNumberFormatter().numberFromString(textField.text!) {
                 gameConfiguration.maximumBet = number.doubleValue
                 if gameConfiguration.maximumBet < gameConfiguration.minimumBet {
                     gameConfiguration.maximumBet = gameConfiguration.minimumBet
@@ -282,7 +282,7 @@ class GameConfigurationControllerTableViewController: UITableViewController, UIT
             })
 
         default:
-            println("Do nothing for now")
+            print("Do nothing for now")
         }
     }
     
@@ -296,7 +296,7 @@ class GameConfigurationControllerTableViewController: UITableViewController, UIT
 
     // MARK: - GKGameCenterDelegate
     
-    func gameCenterViewControllerDidFinish(gameCenterViewController: GKGameCenterViewController!) {
+    func gameCenterViewControllerDidFinish(gameCenterViewController: GKGameCenterViewController) {
 //        println("Game Center View Controller Did Finish")
         dismissViewControllerAnimated(true, completion: nil)
     }

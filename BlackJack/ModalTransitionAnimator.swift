@@ -28,11 +28,11 @@ class ModalTransitionAnimator: BaseTransitionAnimator, UIViewControllerAnimatedT
             toViewController.view.layer.cornerRadius = 4.0
             toViewController.view.clipsToBounds = true
             
-            containerView.addSubview(toViewController.view)
+            containerView!.addSubview(toViewController.view)
             
             UIView.animateWithDuration(animationDuration, animations: { () -> Void in
                 toViewController.view.transform = CGAffineTransformMakeScale(self.finalScale, self.finalScale)
-                containerView.addSubview(toViewController.view)
+                containerView!.addSubview(toViewController.view)
                 fromViewController.view.alpha = 0.5
                 }, completion: { (finished) -> Void in
                     transitionContext.completeTransition(finished)

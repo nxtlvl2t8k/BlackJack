@@ -11,7 +11,7 @@ import UIKit
 class MKLabel: UILabel {
     @IBInspectable var maskEnabled: Bool = true {
         didSet {
-            mkLayer.enableMask(enable: maskEnabled)
+            mkLayer.enableMask(maskEnabled)
         }
     }
     @IBInspectable var rippleLocation: MKRippleLocation = .TapLocation {
@@ -60,7 +60,7 @@ class MKLabel: UILabel {
     private lazy var mkLayer: MKLayer = MKLayer(superLayer: self.layer)
        
     required init(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
+        super.init(coder: aDecoder)!
         setup()
     }
     
@@ -86,11 +86,11 @@ class MKLabel: UILabel {
         mkLayer.animateAlphaForBackgroundLayer(backgroundAniTimingFunction, duration: CFTimeInterval(aniDuration))
     }
     
-    override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
-        super.touchesBegan(touches as Set<NSObject>, withEvent: event)
+    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
+        super.touchesBegan(touches as Set<UITouch>, withEvent: event)
         if let firstTouch = (touches as NSSet).anyObject() as? UITouch {
             let location = firstTouch.locationInView(self)
-            animateRipple(location: location)
+            animateRipple(location)
         }
     }
 }

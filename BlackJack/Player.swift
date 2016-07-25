@@ -140,7 +140,7 @@ class Player: NSObject {
     
     func advanceToNextHand() {
         if currentHandIndex < hands.count - 1 {
-            currentHandIndex++
+            currentHandIndex += 1
             currentHand = hands[currentHandIndex]
             observer?.switchHands()
             sendNotification("Moving to the next split hand")

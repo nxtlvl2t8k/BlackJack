@@ -22,7 +22,7 @@ class BaseTransitionAnimator: NSObject {
     
     // implement common methods here
     
-    func transitionDuration(transitionContext: UIViewControllerContextTransitioning) -> NSTimeInterval {
+    func transitionDuration(transitionContext: UIViewControllerContextTransitioning?) -> NSTimeInterval {
         return duration
     }
 

@@ -55,7 +55,7 @@ class GameKitHelper : NSObject {
         })
     }
     
-    func gameDidEnd(#score: Int?) {
+    func gameDidEnd(score: Int?) {
         var level:Int?
         switch score {
         case let x where x <= 2000:
@@ -86,7 +86,7 @@ class GameKitHelper : NSObject {
                     achievements["BlackjackLevel1"] = 100.0
                     achievements["BlackjackLevel2"] = 100.0
                 default:
-                    println("Somebody have moved to higher levels!!!!")
+                    print("Somebody have moved to higher levels!!!!")
                 }
                 reportAllAchievements(achievements)
             }

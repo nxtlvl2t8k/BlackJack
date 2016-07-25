@@ -9,7 +9,7 @@
 import UIKit
 
 class ModalPresentationTransitionVendor: NSObject, UIViewControllerTransitioningDelegate {
-    func presentationControllerForPresentedViewController(presented: UIViewController, presentingViewController presenting: UIViewController!, sourceViewController source: UIViewController) -> UIPresentationController? {
+    func presentationControllerForPresentedViewController(presented: UIViewController, presentingViewController presenting: UIViewController, sourceViewController source: UIViewController) -> UIPresentationController? {
 //        let presentationController = DetailPresentationController(presentedViewController: presented, presentingViewController: source)
 //        return presentationController;
         return nil

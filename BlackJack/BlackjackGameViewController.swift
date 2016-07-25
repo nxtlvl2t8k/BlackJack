@@ -41,7 +41,7 @@ class BlackjackGameViewController: UIViewController, CardPlayerObserver, UIDynam
 //                rebetButton.hidden = true
                 dealNewButton.hidden = false
             default:
-                println("Default")
+                print("Default")
             }
             currentBetButton.setTitle("\(currentBet)", forState: .Normal)
             currentBetButton.animate()
@@ -78,13 +78,13 @@ class BlackjackGameViewController: UIViewController, CardPlayerObserver, UIDynam
         gameKitHelper = GameKitHelper()
         gameKitHelper?.authenticateLocalPlayer()
 
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "updateCardProgress:", name: NotificationMessages.cardShoeContentStatus, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "gameCompleted", name: NotificationMessages.dealerHandOver, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "setStatusMessage:", name: NotificationMessages.setStatus, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "setPlayerReady", name: NotificationMessages.setPlayerReady, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "resetPlayerScore", name: NotificationMessages.resetPlayerScore, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(BlackjackGameViewController.updateCardProgress(_:)), name: NotificationMessages.cardShoeContentStatus, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(BlackjackGameViewController.gameCompleted), name: NotificationMessages.dealerHandOver, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(BlackjackGameViewController.setStatusMessage(_:)), name: NotificationMessages.setStatus, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(BlackjackGameViewController.setPlayerReady), name: NotificationMessages.setPlayerReady, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(BlackjackGameViewController.resetPlayerScore), name: NotificationMessages.resetPlayerScore, object: nil)
         // listen to Game Center authentication requests
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "showAuthenticationViewController:", name: presentGameCenterAuthenticationVeiwController, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(BlackjackGameViewController.showAuthenticationViewController(_:)), name: presentGameCenterAuthenticationVeiwController, object: nil)
 
         startObservingBankroll(currentPlayer)
     }
@@ -93,8 +93,8 @@ class BlackjackGameViewController: UIViewController, CardPlayerObserver, UIDynam
         stopObservingBankroll(currentPlayer)
     }
     func showAuthenticationViewController(notification: NSNotification) {
-        println("Show Authentication Notification")
-        if let presentedVC = self.presentedViewController {
+        print("Show Authentication Notification")
+        if self.presentedViewController != nil {
             dismissViewControllerAnimated(true, completion: nil)
         }
         presentViewController(notification.object as! UIViewController, animated: true, completion: nil)
@@ -295,7 +295,7 @@ class BlackjackGameViewController: UIViewController, CardPlayerObserver, UIDynam
         case .Players:
             setupButtonsForPlay()
         default:
-            println("This should not happen, you should be in only Deal or Player state")
+            print("This should not happen, you should be in only Deal or Player state")
         }
         self.view.window?.rootViewController?.view?.userInteractionEnabled = true
       }
@@ -331,14 +331,14 @@ class BlackjackGameViewController: UIViewController, CardPlayerObserver, UIDynam
         }
         
         UIView.animateWithDuration(0.25, delay: 0.0, options: .CurveEaseOut, animations: {
-            for (index, button) in enumerate(buttons) {
+            for (index, button) in buttons.enumerate() {
                 button.center = self.positions[index]
                 
             }
             }) { _ in
                 // This is needed in order to make them work correctly when a change in orientation occurs
                 // for some reason the animated values are overwritten... Adding constaints would have worked here
-                for (index, button) in enumerate(buttons) {
+                for (index, button) in buttons.enumerate() {
                     if button.center != self.positions[index] {
                         button.center = self.positions[index]
                     }
@@ -453,7 +453,7 @@ class BlackjackGameViewController: UIViewController, CardPlayerObserver, UIDynam
                 currentBet = previousBet
                 deal()
             default:
-                println("received touch from unknown sender: \(sender)")
+                print("received touch from unknown sender: \(sender)")
             }
         }
     }
@@ -486,11 +486,11 @@ class BlackjackGameViewController: UIViewController, CardPlayerObserver, UIDynam
         pushBehavior = UIPushBehavior(items: [chipView], mode: .Instantaneous)
         pushBehavior!.pushDirection = CGVectorMake(0.6, 0.4)
         pushBehavior!.magnitude = 1
-        animator!.addBehavior(pushBehavior)
+        animator!.addBehavior(pushBehavior!)
         
         snapBehavior = UISnapBehavior(item: chipView, snapToPoint: currentBetButton.center)
         snapBehavior!.damping = 0.5
-        animator!.addBehavior(snapBehavior)
+        animator!.addBehavior(snapBehavior!)
         dynamicChipViews.append(chipView)
         currentBet += amount
     }
@@ -499,7 +499,8 @@ class BlackjackGameViewController: UIViewController, CardPlayerObserver, UIDynam
     func dynamicAnimatorDidPause(animator: UIDynamicAnimator) {
         animator.removeAllBehaviors()
         
-        UIView.transitionWithView(currentBetButton, duration: 0.2, options: .CurveEaseOut | .TransitionFlipFromLeft, animations: {
+//        UIView.transitionWithView(currentBetButton, duration: 0.2, options: .CurveEaseOut | .TransitionFlipFromLeft, animations: {
+        UIView.transitionWithView(currentBetButton, duration: 0.2, options: .CurveEaseOut, animations: {
             for aChipView in self.dynamicChipViews {
                 self.currentBetButton.alpha = 1.0
                 aChipView.removeFromSuperview()
@@ -642,7 +643,7 @@ class BlackjackGameViewController: UIViewController, CardPlayerObserver, UIDynam
             if let scoreText = savedPlayerText {
                 playerFinishedHandsVC[finishedHandsCount].setPlayerScoreText(scoreText)
             }
-            do {
+            repeat {
                 playerFinishedHandsVC[finishedHandsCount].addCardToPlayerHand(removedCardViewCard!)
                 finishedHandViewCardsItem.append(removedCardViewCard!)
                 removedCardViewCard = playerHandContainerViewController?.removeFirstCard()
@@ -691,7 +692,7 @@ class BlackjackGameViewController: UIViewController, CardPlayerObserver, UIDynam
         currentBet = 0
         var myScore = Int(currentPlayer.bankRoll) * 10
 //        reportScore(Int64(myScore), leaderBoardID: gameCenterLeaderBoardID)
-        gameKitHelper!.gameDidEnd(score: Int(currentPlayer.bankRoll) * 10)
+        gameKitHelper!.gameDidEnd(Int(currentPlayer.bankRoll) * 10)
 
         if gameConfiguration.autoWagerPreviousBet {
             currentBet = previousBet
@@ -743,7 +744,7 @@ class BlackjackGameViewController: UIViewController, CardPlayerObserver, UIDynam
         label.text = message
         label.font = UIFont.preferredFontForTextStyle(UIFontTextStyleHeadline)
         label.hidden = false
-        UIView.animateWithDuration(1.5, delay: 0.0, options: nil, animations: {
+        UIView.animateWithDuration(1.5, delay: 0.0, options: .CurveEaseOut, animations: {
             label.transform = CGAffineTransformMakeScale(1.4, 2.0)
             }, completion: { _ in
                 label.transform = CGAffineTransformIdentity
@@ -772,7 +773,7 @@ class BlackjackGameViewController: UIViewController, CardPlayerObserver, UIDynam
     }
     
     func startObservingBankroll(player: Player) {
-        let options = NSKeyValueObservingOptions.New | NSKeyValueObservingOptions.Old
+        let options = NSKeyValueObservingOptions.New //| NSKeyValueObservingOptions.Old
         player.addObserver(self, forKeyPath: "bankRoll", options: options, context: &MyObservationContext)
     }
     
@@ -781,9 +782,9 @@ class BlackjackGameViewController: UIViewController, CardPlayerObserver, UIDynam
    
     }
     
-    override func observeValueForKeyPath(keyPath: String, ofObject object: AnyObject, change: [NSObject : AnyObject], context: UnsafeMutablePointer<Void>) {
+    override func observeValueForKeyPath(keyPath: String?, ofObject object: AnyObject?, change: [String : AnyObject]?, context: UnsafeMutablePointer<Void>) {
         switch (keyPath, context) {
-        case("bankRoll", &MyObservationContext):
+        case("bankRoll"?, &MyObservationContext):
 //            println("Bankroll changed: \(change)")
             bankrollUpdate()
             

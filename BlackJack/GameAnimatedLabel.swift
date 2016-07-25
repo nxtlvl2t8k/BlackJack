@@ -50,7 +50,7 @@ class GameAnimatedLabel: UIView {
         ]
         gradientLayer.colors = colors
         
-        var locations: [AnyObject] = [
+        var locations: [NSNumber] = [
             0.0,
             0.0,
             0.0,
@@ -78,7 +78,7 @@ class GameAnimatedLabel: UIView {
         if let backgroundColor = labelBackground {
             var delayInerval = duration as Double
             delayInerval = (repeatCount as NSNumber).doubleValue * delayInerval
-            delay(seconds: delayInerval) {
+            delay(delayInerval) {
                 self.label.backgroundColor = backgroundColor
             }
         }

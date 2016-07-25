@@ -164,7 +164,8 @@ class DealerHandContainerViewController: HandContainerViewController, DealerObse
                     }, completion: { _ in
                         
                         self.requiredCardCenter = nil
-                        UIView.transitionWithView(self.upCardView!, duration: 0.3, options: .CurveEaseOut | .TransitionFlipFromLeft, animations: {
+//                        UIView.transitionWithView(self.upCardView!, duration: 0.3, options: .CurveEaseOut | .TransitionFlipFromLeft, animations: {
+                        UIView.transitionWithView(self.upCardView!, duration: 0.3, options: .TransitionFlipFromLeft, animations: {
                             self.upCardView!.faceUp = true
                             }, completion: { _ in
                                 //                                                delay(seconds: 0.2) {
@@ -188,7 +189,8 @@ class DealerHandContainerViewController: HandContainerViewController, DealerObse
         UIView.animateWithDuration(0.2, delay: 0, options: .CurveEaseOut , animations: {
             self.holeCardView!.frame = self.originalHoleCardFrame!
             }, completion: { _ in
-                UIView.transitionWithView(self.holeCardView!, duration: 0.2, options: .CurveEaseOut | .TransitionFlipFromLeft, animations: {
+//                UIView.transitionWithView(self.holeCardView!, duration: 0.2, options: .CurveEaseOut | .TransitionFlipFromLeft, animations: {
+                UIView.transitionWithView(self.holeCardView!, duration: 0.2, options: .TransitionFlipFromLeft, animations: {
                     self.holeCardView!.faceUp = true
                     }, completion: { _ in
 //                        self.revealRemainingCards(2)
@@ -207,7 +209,7 @@ class DealerHandContainerViewController: HandContainerViewController, DealerObse
             } else {
                 label!.removeFromSuperview()
             }
-            label!.setTranslatesAutoresizingMaskIntoConstraints(false)
+            label!.translatesAutoresizingMaskIntoConstraints = false
             label!.textAlignment = NSTextAlignment.Center
             label!.text = self.dealerScoreText
             switch self.dealerScoreText {
